@@ -25,7 +25,7 @@ public class MainView extends Stage {
     private final BorderPane root = new BorderPane();
 
     private final TableView<ContactDto> tvContacts
-            = new ContactTable(ContactDto.readAll(Config.getConnection()));
+            = new ContactTable(ContactDto.readAll(Config.getRelationalDatabaseConnection()));
     private final TableView<DetailDto> tvDetails
             = new DetailTable();
 

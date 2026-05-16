@@ -27,7 +27,7 @@ public class ShowContactDetailsControl implements EventHandler<MouseEvent> {
             if (contactDto == null)
                 return;
             int contactId = contactDto.getId();
-            List<DetailDto> detailDtos = DetailDto.readForContact(Config.getConnection(), contactId);
+            List<DetailDto> detailDtos = DetailDto.readForContact(Config.getRelationalDatabaseConnection(), contactId);
             this.detailTable.setItems(FXCollections.observableArrayList(detailDtos));
         }
     }

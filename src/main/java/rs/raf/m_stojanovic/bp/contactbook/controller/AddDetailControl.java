@@ -49,9 +49,9 @@ public class AddDetailControl implements EventHandler<ActionEvent> {
             NULL_CONTACT_ALERT.showAndWait();
             return;
         }
-        this.runQuery(Config.getConnection(), contactDto.getId(), value, this.category);
+        this.runQuery(Config.getRelationalDatabaseConnection(), contactDto.getId(), value, this.category);
         this.detailDtoTableView.setItems(FXCollections.observableArrayList(
-                DetailDto.readForContact(Config.getConnection(), contactDto.getId())));
+                DetailDto.readForContact(Config.getRelationalDatabaseConnection(), contactDto.getId())));
         this.valueTextField.clear();
     }
 

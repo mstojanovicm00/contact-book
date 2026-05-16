@@ -26,12 +26,19 @@ public class Launcher {
 
     private void setUp(String... args) {
         Config.loadProperties(args[0]);
-        String host = Config.getPropertyValue("host", "");
-        String port = Config.getPropertyValue("port", "");
-        String db = Config.getPropertyValue("db", "");
-        String user = Config.getPropertyValue("user", "");
-        String password = Config.getPropertyValue("password", "");
-        Config.connect(host, port, db, user, password);
+        Config.loadProperties(args[1]);
+
+        String host = Config.getPropertyValue("relational.host", "");
+        String port = Config.getPropertyValue("relational.port", "");
+        String db = Config.getPropertyValue("relational.db", "");
+        String user = Config.getPropertyValue("relational.user", "");
+        String password = Config.getPropertyValue("relational.password", "");
+        Config.connectToRelationalDatabase(host, port, db, user, password);
+
+        host = Config.getPropertyValue("mongo.host", "");
+        port = Config.getPropertyValue("mongo.port", "");
+        db = Config.getPropertyValue("mongo.db", "");
+        Config.connectToMongoDatabase(host, port, db);
     }
 
     private void work(String... args) {
@@ -39,7 +46,8 @@ public class Launcher {
     }
 
     private void clean(String... args) {
-        Config.disconnect();
+        Config.disconnectFromRelationalDatabase();
+        Config.disconnectFromMongoDatabase();
     }
 
 }

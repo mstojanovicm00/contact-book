@@ -38,9 +38,9 @@ public class AddContactControl implements EventHandler<ActionEvent> {
             NULL_NAMES_ALTERT.showAndWait();
             return;
         }
-        this.runQuery(Config.getConnection(), firstName.trim(), lastName.trim());
+        this.runQuery(Config.getRelationalDatabaseConnection(), firstName.trim(), lastName.trim());
         this.contactDtoTableView.setItems(FXCollections.observableArrayList(
-                ContactDto.readAll(Config.getConnection())));
+                ContactDto.readAll(Config.getRelationalDatabaseConnection())));
         this.textFieldFirstName.clear();
         this.textFieldLastName.clear();
     }
