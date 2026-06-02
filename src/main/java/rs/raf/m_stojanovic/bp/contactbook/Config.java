@@ -24,6 +24,15 @@ public class Config {
     private static MongoClient mongoDatabaseClient;
     private static MongoDatabase mongoDatabaseConnection;
 
+    public static void logToMongoDatabase(String message) {
+        MongoCollection<Document> logs = mongoDatabaseConnection.getCollection("logs");
+        logs.updateOne(
+                new Document("datetime", NOW),
+                new Document("$push", new Document("messages",
+                        new Document("message", message).append("datetime", LocalDateTime.now())))
+        );
+    }
+
     public static void connectToMongoDatabase(String host, String port, String db) {
         String url = "mongodb://" + host + ":" + port;
         mongoDatabaseClient = MongoClients.create(url);
@@ -37,12 +46,7 @@ public class Config {
     }
 
     public static void disconnectFromMongoDatabase() {
-        MongoCollection<Document> logs = mongoDatabaseConnection.getCollection("logs");
-        logs.updateOne(
-                new Document("datetime", NOW),
-                new Document("$push", new Document("messages",
-                        new Document("message", "disconnecting").append("datetime", LocalDateTime.now())))
-        );
+        logToMongoDatabase("disconnecting");
 
         mongoDatabaseClient.close();
     }
@@ -74,11 +78,12 @@ public class Config {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
-            try {
-                fileInputStream.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            if (fileInputStream != null)
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    System.out.println("Problem with closing the configuration file");
+                }
         }
     }
 
