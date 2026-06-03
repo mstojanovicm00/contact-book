@@ -50,17 +50,23 @@ tools available online to automatically translate
 the schema across dialects should be considered, but
 not fully relied on, as they can produce errors.
 
-Lastly, the database.cfg file has to be given on
-a source root. It needs to be written in
+Lastly, the `relational.cfg` and `mongo.cfg` files have to be given on
+a source root. They need to be written in
 a following format:
 
 ```
-host = host that hosts the database (ex. localhost)
-port = port on which the database is hosted (ex. 3306)
-db = contact_book (name of a database)
-user = username to access the host (ex. root)
-password = password to access the root user
+[dbtype].host = host that hosts the database (ex. localhost)
+[dbtype].port = port on which the database is hosted (ex. 3306)
+[dbtype].db = contact_book (name of a database)
+[dbtype].user = username to access the host (ex. root)
+[dbtype].password = password to access the root user
 ```
+
+Here, `[dbtype]` could be either `relational` or `mongo`.
+
+The rows with starting with `user` and `password` could be
+omitted provided they are not needed to connect to
+a database.
 
 ## Usage
 
